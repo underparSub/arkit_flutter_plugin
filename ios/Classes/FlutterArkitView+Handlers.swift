@@ -246,15 +246,19 @@ extension FlutterArkitView {
     }
   }
   
-  func onGetSnapshot(_ result: FlutterResult) {
-    let snapshotImage = sceneView.snapshot()
-    if let bytes = snapshotImage.pngData() {
-      let data = FlutterStandardTypedData(bytes: bytes)
-      result(data)
-    } else {
-      result(nil)
+func onGetSnapshot(_ result: FlutterResult) {
+    autoreleasepool {
+        let snapshotImage = sceneView.snapshot()
+        
+        if let bytes = snapshotImage.jpegData(compressionQuality: 0.8) { // JPEG 형식으로 압축
+            let data = FlutterStandardTypedData(bytes: bytes)
+            result(data)
+        } else {
+            result(nil)
+        }
     }
-  }
+}
+
   
   func onGetCameraPosition(_ result: FlutterResult) {
     if let frame: ARFrame = sceneView.session.currentFrame {
