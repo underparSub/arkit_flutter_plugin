@@ -734,10 +734,10 @@ class ARKitController {
     final vector3 = _vector3Converter.fromJson(result!);
     return vector3;
   }
-
-  Future<ImageProvider> snapshot() async {
+    
+Future<Uint8List> snapshot() async {
     final result = await _channel.invokeMethod<Uint8List>('snapshot');
-    return MemoryImage(result!);
+    return result ?? Uint8List(0);
   }
 
   Future<Vector3?> cameraPosition() async {
